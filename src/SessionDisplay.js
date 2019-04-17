@@ -27,7 +27,11 @@ class SessionDisplay extends Component {
           {minuteUI}
         </ul>
         <div>
-          {this.props.isWorking ? <h1>Work Mode!</h1> : <h1>Break Mode</h1>}
+          {
+            this.props.isWorking && this.props.isRunning ? <h3>Work Mode!</h3> :
+            !this.props.isWorking && this.props.isRunning ? <h3>Break Mode</h3> :
+            <h3> Click Play to get Started</h3>
+          }
         </div>
       </div>
     )
