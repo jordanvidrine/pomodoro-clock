@@ -5,6 +5,10 @@ html, body {
 }
 
 body {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+body {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,16 +19,55 @@ body {
   flex-direction: column;
   align-items: center;
   width: 450px;
-  height: 300px;
+  height: 250px;
   border-radius: 25px;
-  background-color: white;
+  /* background-color: white; */
 }
 
 #clock {
-  width: 80%;
+  width: 100%;
   display: flex;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
 }
+
+#clock button.play {
+  width: 30%;
+  margin: 0 20px 0 0;
+  background: #C0FF3E;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+#clock button.stop {
+  width: 30%;
+  margin: 0 20px 0 0;
+  background: #FF6347;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+#clock button i {
+  color: rgba(0,0,0,0.4)
+}
+
+.clock-display {
+  font-family: 'Roboto', sans-serif;
+  font-size: 70px;
+  letter-spacing: -3px;
+  font-weight: bolder;
+  margin: 15px 0 15px 0;
+}
+
 #custom-settings {
   display: flex;
   width: 80%;
@@ -43,6 +86,21 @@ body {
 
 .settings p {
   margin: 0;
+  font-size: .8em;
+}
+
+.settings div {
+  margin: 10px 0 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.settings h3 {
+  margin: 0 10px 0 10px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 30px;
+  font-weight: bolder;
 }
 
 input[type=number] {
@@ -53,9 +111,10 @@ input[type=number] {
 
 button.up {
   background: none;
-	color: #00FF7F;
+  padding: 0;
+	/* color: #00FF7F; */
+  color: white;
 	border: none;
-	padding: 10px;
 	font: inherit;
 	cursor: pointer;
 	outline: inherit;
@@ -63,9 +122,10 @@ button.up {
 
 button.down {
   background: none;
-	color: #FF6347;
+  padding:0;
+	/* color: #FF6347; */
+  color: white;
 	border: none;
-	padding: 10px;
 	font: inherit;
 	cursor: pointer;
 	outline: inherit;
@@ -79,27 +139,6 @@ button.restart {
   font: inherit;
   cursor: pointer;
   outline: inherit;
-}
-
-#clock {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-#clock button {
-  width: 50%;
-  background: none;
-  border: none;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
-}
-
-.settings p {
-  font-size: .8em;
 }
 
 #session-display {
@@ -122,13 +161,4 @@ button.restart {
   justify-content: flex-start;
   align-items: center;
   padding: 5px;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
