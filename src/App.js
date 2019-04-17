@@ -26,7 +26,6 @@ class Timer extends Component {
       isWorking: DEFAULTS.isWorking,
       intervalId: DEFAULTS.intervalId,
     }
-    this.handleChange = this.handleChange.bind(this);
     this.handleIncOrDec = this.handleIncOrDec.bind(this);
     this.toggleClock = this.toggleClock.bind(this);
     this.countDown = this.countDown.bind(this);
@@ -35,26 +34,6 @@ class Timer extends Component {
     this.restart = this.restart.bind(this);
     this.stopClock = this.stopClock.bind(this);
   }
-
-  handleChange(event){
-    let newVal = Number(event.target.value);
-    event.target.id === "Break-Length" ?
-    this.setState({
-      ...this.state,
-      breakLength: newVal >= 1 ? newVal : 1
-    }) :
-    event.target.id === "Session-Length" ?
-    this.setState({
-      ...this.state,
-      sessionLength: newVal >= 1 ? newVal : 1,
-      timer: newVal * 60
-    }) :
-    this.setState({
-      ...this.state,
-      sessionsLeft: newVal >= 1 ? newVal : 1
-    })
-  }
-
   handleIncOrDec(event){
     let value;
     let breakLength = this.state.breakLength;
@@ -80,9 +59,7 @@ class Timer extends Component {
       sessionsLeft: sessionsLeft + value >= 1 ? sessionsLeft + value : sessionsLeft
     })
   }
-
   toggleClock(event){
-
     if (this.state.isRunning === true) {
       //get the current interval id to pass to the stop clock function
       let intervalId = this.state.intervalId;
@@ -102,22 +79,17 @@ class Timer extends Component {
       })
     }
   }
-
   stopClock(intervalId){
     //turns off the countdown function by using the setInterval ID
     return clearInterval(intervalId)
   }
-
   countDown() {
- {
     return setInterval(function(){
       this.decrementTimer();
       this.workingOrNot();
 
     }.bind(this),1000)
   }
-}
-
   decrementTimer() {
     this.state.timer >= 1 && this.state.sessionsLeft !== 0 ?
     this.setState({
@@ -127,7 +99,6 @@ class Timer extends Component {
       ...this.state
     })
   }
-
   workingOrNot(){
     //if user is currently working, the timer will set to the Break length
     //if the user is currently on break the timer will be reset to the session length
@@ -148,16 +119,13 @@ class Timer extends Component {
         ...this.state,
       })
   }
-
   restart(){
     clearInterval(this.state.intervalId);
     this.setState({
       ...DEFAULTS
     })
   }
-
   render() {
-
     return (
       <div className="timer-container">
         {this.state.sessionsLeft === 0 ?
@@ -169,31 +137,32 @@ class Timer extends Component {
           </div>
           :
           <div className="timer-container">
-        <Clock timer={this.state.timer} onClick={this.toggleClock} status={this.state.isRunning}/>
+        <Clock
+          timer={this.state.timer}
+          onClick={this.toggleClock}
+          status={this.state.isRunning}
+        />
         <div id="custom-settings">
           <Settings
             id="break-settings"
             settingType="Break-Length"
             default={this.state.breakLength}
-            onChange={this.handleChange}
             onClick={this.handleIncOrDec}
           />
           <Settings
             id="session-settings"
             settingType="Session-Length"
             default={this.state.sessionLength}
-            onChange={this.handleChange}
             onClick={this.handleIncOrDec}
           />
           <Settings
             id="num-sessions"
             settingType="Session-Count"
             default={this.state.sessionsLeft}
-            onChange={this.handleChange}
             onClick={this.handleIncOrDec}
           />
         </div>
-        <SessionDisplay
+        {/*<SessionDisplay
           numMinutes={
             this.state.isWorking ? this.state.sessionLength : this.state.breakLength
           }
@@ -201,13 +170,13 @@ class Timer extends Component {
             this.state.timer
           }
           isWorking={this.state.isWorking}
+          isRunning={this.state.isRunning}
         />
+        */}
         </div>
       }
       </div>
     );
-
   }
 }
-
 export default Timer;
