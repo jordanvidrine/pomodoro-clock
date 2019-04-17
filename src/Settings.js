@@ -10,19 +10,18 @@ const Settings = props => {
           id={props.settingType}
           className="down"
           onClick={props.onClick}>
-          <i className="fas fa-arrow-down"></i>
+          <i className="fas fa-arrow-down fa-2x"></i>
         </button>
-        <input
-          type="number"
+        <h3
           id={props.settingType}
-          value={props.default}
-          onChange={props.onChange}>
-        </input>
+        >
+        {props.default}
+        </h3>
         <button
           id={props.settingType}
           className="up"
           onClick={props.onClick}>
-          <i className="fas fa-arrow-up"></i>
+          <i className="fas fa-arrow-up fa-2x"></i>
         </button>
         </div>
       </div>
