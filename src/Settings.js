@@ -4,7 +4,27 @@ import React from 'react';
 const Settings = props => {
     return(
       <div className="settings">
-        <p>{props.settingType}</p>
+        <p
+        style={props.isWorking && props.settingType == "Break-Length" ?
+          {
+            color: 'black'
+          }
+          : !props.isWorking && props.settingType == "Break-Length" ?
+          {
+            color: '#3ECFFF',
+          }
+          : props.isWorking && props.settingType == "Session-Length" ?
+          {
+            color: '#C0FF3E'
+          }
+          :
+          {
+            color: 'black'
+          }
+        }
+        >
+        {props.settingType}
+        </p>
         <div>
         <button
           id={props.settingType}
