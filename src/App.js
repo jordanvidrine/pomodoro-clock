@@ -145,6 +145,7 @@ class Timer extends Component {
           timer={this.state.timer}
           onClick={this.toggleClock}
           status={this.state.isRunning}
+          isWorking={this.state.isWorking}
         />
         <div id="custom-settings">
           <Settings
@@ -152,12 +153,14 @@ class Timer extends Component {
             settingType="Break-Length"
             default={this.state.breakLength}
             onClick={this.handleIncOrDec}
+            isWorking={this.state.isWorking}
           />
           <Settings
             id="session-settings"
             settingType="Session-Length"
             default={this.state.sessionLength}
             onClick={this.handleIncOrDec}
+            isWorking={this.state.isWorking}
           />
           <Settings
             id="num-sessions"

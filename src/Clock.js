@@ -11,7 +11,7 @@ const Clock = props => {
     return (
       <div id="clock">
         <button onClick={props.onClick}
-        className={ props.status ? "stop" : "play"}
+        className={ props.status ? "stop" : props.isWorking ? "play" : "play-break"}
         >
           {
             props.status ?
