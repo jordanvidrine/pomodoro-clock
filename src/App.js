@@ -3,12 +3,14 @@ import './App.css';
 import Clock from './Clock';
 import Settings from './Settings.js';
 import SessionDisplay from './SessionDisplay';
+import PomodoroDisplay from './PomodoroDisplay';
 
 const DEFAULTS = {
   timer: 1500,
   sessionLength: 25,
   breakLength: 5,
   sessionsLeft: 5,
+  sessionsComplete: 0,
   isRunning: false,
   isWorking: true,
   intervalId: null,
@@ -22,6 +24,7 @@ class Timer extends Component {
       sessionLength: DEFAULTS.sessionLength,
       breakLength: DEFAULTS.breakLength,
       sessionsLeft: DEFAULTS.sessionsLeft,
+      sessionsComplete: DEFAULTS.sessionsComplete,
       isRunning: DEFAULTS.isRunning,
       isWorking: DEFAULTS.isWorking,
       intervalId: DEFAULTS.intervalId,
@@ -46,13 +49,13 @@ class Timer extends Component {
     event.currentTarget.id === "Break-Length" ?
     this.setState({
       ...this.state,
-      breakLength: breakLength + value >= 1 ? breakLength + value : breakLength
+      breakLength: breakLength + value >= 1 && breakLength + value <= 10 ? breakLength + value : breakLength
     }) :
     event.currentTarget.id === "Session-Length" ?
     this.setState({
       ...this.state,
-      timer: sessionLength + value >= 1 ? (sessionLength+value)*60 : sessionLength*60,
-      sessionLength: sessionLength + value >= 1 ? sessionLength + value : sessionLength
+      timer: sessionLength + value >= 1 && sessionLength + value <= 25 ? (sessionLength+value)*60 : sessionLength*60,
+      sessionLength: sessionLength + value >= 1 && sessionLength + value <= 25 ? sessionLength + value : sessionLength
     }) :
     this.setState({
       ...this.state,
@@ -112,7 +115,8 @@ class Timer extends Component {
         isWorking: this.state.sessionsLeft - 1 > 0 ? !this.state.isWorking : false,
         timer,
         //if the current session is a break, it will reduce sessions left by one, if not, it will keep sessions left the same (only after a break is a full session complete)
-        sessionsLeft: !this.state.isWorking ? this.state.sessionsLeft - 1 : this.state.sessionsLeft
+        sessionsLeft: !this.state.isWorking ? this.state.sessionsLeft - 1 : this.state.sessionsLeft,
+        sessionsComplete: !this.state.isWorking ? this.state.sessionsComplete + 1 : this.state.sessionsComplete
       }) :
       //if the timer isnt 0 yet, keep the state as it is
       this.setState({
@@ -162,6 +166,7 @@ class Timer extends Component {
             onClick={this.handleIncOrDec}
           />
         </div>
+        <PomodoroDisplay sessionsComplete={this.state.sessionsComplete} sessionsLeft={this.state.sessionsLeft} />
         {/*<SessionDisplay
           numMinutes={
             this.state.isWorking ? this.state.sessionLength : this.state.breakLength
