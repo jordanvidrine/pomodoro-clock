@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import Clock from './Clock';
 import Settings from './Settings.js';
-import SessionDisplay from './SessionDisplay';
+//import SessionDisplay from './SessionDisplay';
 import PomodoroDisplay from './PomodoroDisplay';
+import accurateInterval from './accurateInterval.js'
 
 const DEFAULTS = {
   timer: 1500,
@@ -36,6 +37,7 @@ class Timer extends Component {
     this.workingOrNot = this.workingOrNot.bind(this);
     this.restart = this.restart.bind(this);
     this.stopClock = this.stopClock.bind(this);
+    this.beeper = this.beeper.bind(this);
   }
   handleIncOrDec(event){
     let value;
@@ -63,6 +65,7 @@ class Timer extends Component {
     })
   }
   toggleClock(event){
+
     if (this.state.isRunning === true) {
       //get the current interval id to pass to the stop clock function
       let intervalId = this.state.intervalId;
@@ -84,17 +87,18 @@ class Timer extends Component {
   }
   stopClock(intervalId){
     //turns off the countdown function by using the setInterval ID
-    return clearInterval(intervalId)
+    intervalId.cancel()// clearInterval(intervalId)
   }
   countDown() {
-    return setInterval(function(){
+    return accurateInterval(function(){
       this.decrementTimer();
       this.workingOrNot();
+      this.beeper();
 
     }.bind(this),1000)
   }
   decrementTimer() {
-    this.state.timer >= 1 && this.state.sessionsLeft !== 0 ?
+    this.state.timer >= -1 && this.state.sessionsLeft !== 0 ?
     this.setState({
       timer: this.state.timer -1
     }) :
@@ -107,7 +111,7 @@ class Timer extends Component {
     //if the user is currently on break the timer will be reset to the session length
     let timer = this.state.isWorking ? (this.state.breakLength * 60) : (this.state.sessionLength * 60);
     //has the timer reached 0 yet?
-    this.state.timer == 0 ?
+    this.state.timer < 0 ?
     //if so, its time to reset the timer and the isWorking key
       this.setState({
         //if sessions left -1 does not = 0, then there are still sessions left
@@ -122,6 +126,9 @@ class Timer extends Component {
       this.setState({
         ...this.state,
       })
+  }
+  beeper(){
+    this.state.timer === 0 ? this.audioBeep.play().catch(function(error){console.log(error)}) : Array(); //pointless call - trying to get it to do NOTHING if timer isnt 0
   }
   restart(){
     clearInterval(this.state.intervalId);
@@ -169,18 +176,15 @@ class Timer extends Component {
             onClick={this.handleIncOrDec}
           />
         </div>
-        <PomodoroDisplay sessionsComplete={this.state.sessionsComplete} sessionsLeft={this.state.sessionsLeft} />
-        {/*<SessionDisplay
-          numMinutes={
-            this.state.isWorking ? this.state.sessionLength : this.state.breakLength
-          }
-          minutesLeft={
-            this.state.timer
-          }
-          isWorking={this.state.isWorking}
-          isRunning={this.state.isRunning}
+        <PomodoroDisplay
+          sessionsComplete={this.state.sessionsComplete}
+          sessionsLeft={this.state.sessionsLeft}
         />
-        */}
+        <audio
+          src="https://goo.gl/65cBl1#t=1.1"
+          preload="auto"
+          ref={(audio) => this.audioBeep = audio}
+        />
         </div>
       }
       </div>
