@@ -61,7 +61,7 @@ class Timer extends Component {
     }) :
     this.setState({
       ...this.state,
-      sessionsLeft: sessionsLeft + value >= 1 ? sessionsLeft + value : sessionsLeft
+      sessionsLeft: sessionsLeft + value >= 1 && sessionsLeft + value <=10 ? sessionsLeft + value : sessionsLeft
     })
   }
   toggleClock(event){
