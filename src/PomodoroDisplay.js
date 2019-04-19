@@ -9,7 +9,7 @@ const PomodoroDisplay = props =>{
     padding: 0,
   }
 
-  let liStyleComplete = {
+  let complete = {
     margin: '0 10px 0 0',
     color: 'rgb(93, 170, 110)',
     backgroundColor: '#C0FF3E',
@@ -22,7 +22,7 @@ const PomodoroDisplay = props =>{
     alignItems: 'center'
   }
 
-  let liStyleIncomplete = {
+  let incomplete = {
     margin: '0 10px 0 0',
     color: 'grey',
     backgroundColor: '#C0FF3E',
@@ -35,10 +35,20 @@ const PomodoroDisplay = props =>{
     alignItems: 'center'
   }
 
-  let pomodoros = Array(props.sessionsLeft+props.sessionsComplete).fill().map((v,idx)=>{
-    if(idx < props.sessionsComplete) {
-      return <li style={liStyleComplete}><i class="fas fa-check-circle fa-3x"></i></li>
-    } return <li style={liStyleIncomplete}><i class="fas fa-circle fa-3x"></i></li>
+  let pomodoros = Array(props.sessionsComplete+props.sessionsLeft).fill().map((v,idx)=>{
+    if (idx < props.sessionsComplete) {
+      return (
+        <li style={complete}>
+          <i className="fas fa-check-circle fa-3x"></i>
+        </li>
+      )
+    } else {
+        return (
+          <li style={incomplete}>
+            <i class="fas fa-circle fa-3x"></i>
+          </li>
+        )
+      }
   })
   return(
     <div id="pomodoros">
